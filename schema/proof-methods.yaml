@@ -1,0 +1,38 @@
+# Lemmatize proof-method vocabulary.
+# Adding a tag is a versioned change. Removing a tag is a breaking change.
+# Entries always validate against the latest version.
+version: 1
+
+tags:
+  - id: direct
+    description: Straight-line derivation from definitions and prior results without case split or recursion.
+  - id: contradiction
+    description: Assume the negation of the goal and derive False.
+  - id: contrapositive
+    description: Prove ¬B → ¬A instead of A → B.
+  - id: induction
+    description: Ordinary induction on a natural number or other inductive type.
+  - id: strong-induction
+    description: Induction whose step assumes the result for all smaller values.
+  - id: well-founded-recursion
+    description: Recursion on a well-founded relation other than ℕ's <.
+  - id: case-analysis
+    description: Split into a finite collection of exhaustive cases.
+  - id: construction
+    description: Existence proven by exhibiting an explicit witness.
+  - id: existence-by-counting
+    description: Existence proven by a counting or pigeonhole-style argument without an explicit witness.
+  - id: pigeonhole
+    description: Pigeonhole principle, including measure-theoretic generalizations.
+  - id: descent
+    description: Infinite-descent argument; assumes a minimal counterexample and constructs a smaller one.
+  - id: unique-factorization
+    description: Argument routed through unique factorization in ℤ or a UFD.
+  - id: algebraic-manipulation
+    description: Identity-level rewriting in a ring, field, or group.
+  - id: analytic
+    description: Uses limits, continuity, integration, or other analytic machinery.
+  - id: combinatorial
+    description: Combinatorial / counting argument.
+  - id: topological
+    description: Uses open covers, compactness, connectedness, or other topological structure.

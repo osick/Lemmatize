@@ -1,0 +1,120 @@
+# Lemmatize seed entry.
+# This file is the reference implementation of the schema in schema/entry.schema.json.
+# Copy this entry as the template for theorems 2–20.
+#
+# IMPORTANT: the mathlib_commit_verified_against, mathlib_lines, and verbatim
+# Lean blocks are marked TBD where they have not been re-verified against a
+# pinned Mathlib4 commit. See the verification block at the bottom.
+
+id: irrational-sqrt-two
+
+wikidata: Q738653
+
+aliases:
+  - "Irrationality of √2"
+  - "Pythagoras' theorem on √2"
+  - "Theaetetus' theorem (special case)"
+
+canonical_name:
+  en: "Irrationality of √2"
+  de: "Irrationalität von √2"
+
+short_form:
+  en: "√2 is irrational"
+  de: "√2 ist irrational"
+
+mathlib_declaration: Nat.Prime.irrational_sqrt
+mathlib_file: Mathlib/NumberTheory/Irrational.lean
+mathlib_lines: "1-1"
+mathlib_commit_verified_against: TBD
+
+mathlib_statement: |
+  theorem Nat.Prime.irrational_sqrt {p : ℕ} (hp : p.Prime) : Irrational (Real.sqrt p)
+
+mathlib_proof_body: |
+  -- Verbatim proof body to be pinned against a specific Mathlib commit.
+  -- The route in Mathlib is roughly:
+  --   apply (irrational_sqrt_natCast_iff_of_pos hp.pos).mpr
+  --   intro n hn
+  --   exact hp.not_isSquare ⟨n, hn.symm⟩
+  -- See verification[*] below; this body MUST be replaced with the
+  -- byte-for-byte source at the pinned commit before the entry is marked verified.
+  TBD
+
+proof_method_lean:
+  - contradiction
+  - case-analysis
+  - unique-factorization
+
+proof_method_textbook:
+  - contradiction
+  - descent
+  - unique-factorization
+
+essential_hypotheses:
+  - "2 is prime (more generally: any prime p, in the Mathlib formulation)."
+
+technical_hypotheses:
+  - "Real.sqrt is the principal branch; the statement is over ℝ rather than ℚ̄."
+
+dependencies:
+  - declaration: irrational_sqrt_natCast_iff_of_pos
+    canonical_name: "Irrationality criterion for √n"
+    gloss: "For positive n, √n is irrational iff n is not a perfect square."
+  - declaration: Nat.Prime.not_isSquare
+    canonical_name: "Primes are not perfect squares"
+    gloss: "If p is prime then p is not the square of any natural number."
+  - declaration: Nat.Prime
+    canonical_name: "Prime number"
+    gloss: "The definition of primality used by the irrationality argument."
+
+proof_chain:
+  - "Reduce Irrational (√p) to the criterion irrational_sqrt_natCast_iff_of_pos."
+  - "Discharge the criterion's hypothesis by showing p is not a perfect square (Nat.Prime.not_isSquare)."
+  - "Conclude by combining the two."
+
+verbalization:
+  researcher: |
+    By the irrationality criterion for √n (n positive), it suffices to show that
+    a prime p is not a perfect square — which is immediate from the definition of
+    primality. Hence √p is irrational; specializing to p = 2 gives √2 ∉ ℚ.
+  faithful_to_mathlib: |
+    Mathlib does not give the classical "lowest-terms descent" argument here.
+    It proves the general statement that √p is irrational for every prime p, by
+    reducing to a perfect-square criterion: a positive natural number n has
+    irrational square root if and only if n is not a perfect square. Primality
+    rules out being a square (a prime equal to k² would force k = 1, contradiction),
+    so √p is irrational, and √2 follows as the case p = 2.
+  textbook_classical: |
+    Suppose √2 = a / b with a, b coprime integers and b ≠ 0. Squaring gives
+    2b² = a², so a² is even and hence a is even; write a = 2a'. Substituting,
+    b² = 2a'², so b is also even, contradicting coprimeness. Therefore √2 is
+    irrational. (Note: this *descent* argument is not the one Mathlib uses;
+    Mathlib routes the proof through a perfect-square criterion. See the
+    `faithful_to_mathlib` rendering for what Lean actually verifies.)
+
+verification:
+  - claim: "pending Mathlib commit pin"
+    source: local-lean-check
+    checked_on: "2026-05-17"
+    checker: lemmatize-seed
+  - claim: "Wikidata Q738653 is the Q-ID for 'square root of 2 is irrational'."
+    source: "https://www.wikidata.org/wiki/Q738653"
+    checked_on: "2026-05-17"
+    checker: lemmatize-seed
+  - claim: "Nat.Prime.irrational_sqrt is defined in Mathlib/NumberTheory/Irrational.lean."
+    source: "https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/NumberTheory/Irrational.lean"
+    checked_on: "2026-05-17"
+    checker: lemmatize-seed
+
+notes: |
+  This seed entry is intentionally honest about what has and has not been
+  verified at creation time. The Lean statement and proof body are placeholders
+  pending a pinned-commit fetch; everything else (canonical name, Q-ID,
+  ontology fields) is real and should not need to change when the commit pin
+  is added.
+
+  The contrast between `proof_method_lean` and `proof_method_textbook` is the
+  point of §2.1 of docs/idea.md: Mathlib does *not* run the classical descent
+  argument, and any verbalizer that pretends otherwise is unfaithful to the
+  formal proof. The three verbalizations make this disclosure explicit.
