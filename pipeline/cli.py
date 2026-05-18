@@ -12,7 +12,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from pipeline import validate, lookup, faithfulness
+from pipeline import validate, lookup, faithfulness, verbalize as verbalize_mod
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -24,8 +24,13 @@ def build_parser() -> argparse.ArgumentParser:
     p_lookup = sub.add_parser("lookup", help="Resolve a Mathlib declaration to a Lemmatize entry.")
     p_lookup.add_argument("declaration")
 
-    p_verb = sub.add_parser("verbalize", help="Generate natural-language prose for a Lean proof.")
+    p_verb = sub.add_parser("verbalize", help="Render a stored verbalization for a Mathlib declaration.")
     p_verb.add_argument("declaration")
+    p_verb.add_argument(
+        "--register",
+        choices=verbalize_mod.REGISTERS,
+        default="faithful_to_mathlib",
+    )
 
     p_check = sub.add_parser("check", help="Weak faithfulness check on a prose file.")
     p_check.add_argument("declaration")
@@ -42,8 +47,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "lookup":
         return lookup.main([args.declaration])
     if args.cmd == "verbalize":
-        print(f"verbalize {args.declaration}: not yet implemented (see requirements.md §R4)")
-        return 2
+        return verbalize_mod.main([args.declaration, "--register", args.register])
     if args.cmd == "check":
         return faithfulness.main([args.declaration, args.prose_file])
 

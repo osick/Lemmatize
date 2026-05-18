@@ -1,0 +1,81 @@
+id: euclids-lemma
+
+wikidata: Q1196586
+
+aliases:
+  - "Euclid's first theorem"
+  - "Prime divisibility lemma"
+
+canonical_name:
+  en: "Euclid's lemma"
+  de: "Lemma von Euklid"
+
+short_form:
+  en: "by Euclid's lemma"
+  de: "nach dem Lemma von Euklid"
+
+mathlib_declaration: Nat.Prime.dvd_mul
+mathlib_file: Mathlib/Data/Nat/Prime/Basic.lean
+mathlib_lines: "1-1"
+mathlib_commit_verified_against: TBD
+
+mathlib_statement: |
+  theorem Nat.Prime.dvd_mul {p m n : ℕ} (pp : p.Prime) : p ∣ m * n ↔ p ∣ m ∨ p ∣ n
+
+mathlib_proof_body: |
+  -- Verbatim proof body to be pinned against a specific Mathlib commit.
+  -- The Mathlib argument is the standard one: in a UFD (or for ℕ via the
+  -- coprime-with-non-divisor argument), if p ∤ m then gcd(p, m) = 1 so
+  -- p ∣ n follows from p ∣ m*n via Nat.Coprime.dvd_of_dvd_mul_left.
+  TBD
+
+proof_method_lean:
+  - case-analysis
+  - direct
+proof_method_textbook:
+  - case-analysis
+  - direct
+
+dependencies:
+  - declaration: Nat.Coprime.dvd_of_dvd_mul_right
+    canonical_name: "Coprime cancellation in divisibility"
+    gloss: "If gcd(a, b) = 1 and a ∣ b * c, then a ∣ c — the engine of Euclid's lemma."
+  - declaration: Nat.Prime.coprime_iff_not_dvd
+    canonical_name: "Primes are coprime to non-multiples"
+    gloss: "For prime p, gcd(p, m) = 1 iff p ∤ m."
+
+proof_chain:
+  - "If p ∣ m, the disjunction holds on the left."
+  - "Otherwise gcd(p, m) = 1 by Nat.Prime.coprime_iff_not_dvd."
+  - "From p ∣ m * n and gcd(p, m) = 1, conclude p ∣ n by Nat.Coprime.dvd_of_dvd_mul_left."
+
+verbalization:
+  researcher: |
+    Euclid's lemma. If p is prime and p ∣ mn, then p ∣ m or p ∣ n.
+  faithful_to_mathlib: |
+    Mathlib proves the iff form directly. The reverse direction is trivial
+    (p ∣ m or p ∣ n both imply p ∣ mn). The forward direction splits on
+    whether p ∣ m: if so, done; if not, primality of p makes p coprime to m,
+    and coprime cancellation gives p ∣ n.
+  textbook_classical: |
+    Suppose p ∣ mn. If p divides m we are done. Otherwise gcd(p, m) = 1,
+    because the only divisors of p are 1 and p. Bezout's identity yields
+    integers x, y with xp + ym = 1, so xpn + ymn = n. Both terms on the
+    left are divisible by p (the first trivially, the second since p ∣ mn),
+    hence p ∣ n.
+
+verification:
+  - claim: "pending Mathlib commit pin"
+    source: local-lean-check
+    checked_on: "2026-05-17"
+    checker: lemmatize-seed
+  - claim: "Wikidata Q1196586 is the Q-ID for Euclid's lemma."
+    source: "https://www.wikidata.org/wiki/Q1196586"
+    checked_on: "2026-05-17"
+    checker: lemmatize-seed
+
+notes: |
+  This entry is the canonical illustration of the verbalization motivation:
+  Mathlib spells the lemma `Nat.Prime.dvd_mul`, but no working mathematician
+  would say "by Nat.Prime.dvd_mul" — they would say "by Euclid's lemma."
+  The short_form field encodes exactly that substitution.

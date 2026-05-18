@@ -1,0 +1,83 @@
+id: bezouts-identity
+
+wikidata: Q513028
+
+aliases:
+  - "Bezout's lemma"
+  - "Bezout-Bachet identity"
+
+canonical_name:
+  en: "Bezout's identity"
+  de: "Lemma von Bézout"
+
+short_form:
+  en: "by Bezout's identity"
+  de: "nach dem Lemma von Bézout"
+
+mathlib_declaration: Nat.gcd_eq_gcd_ab
+mathlib_file: Mathlib/Data/Int/GCD.lean
+mathlib_lines: "1-1"
+mathlib_commit_verified_against: TBD
+
+mathlib_statement: |
+  -- The natural-number form provides explicit Bezout coefficients
+  -- (Nat.gcdA, Nat.gcdB) such that gcd a b = a * gcdA a b + b * gcdB a b.
+  theorem Nat.gcd_eq_gcd_ab (a b : ℕ) :
+    (Nat.gcd a b : ℤ) = a * Nat.gcdA a b + b * Nat.gcdB a b
+
+mathlib_proof_body: |
+  -- Verbatim proof body to be pinned against a specific Mathlib commit.
+  -- The Mathlib proof is by induction following the extended Euclidean
+  -- algorithm; `Nat.xgcd` is the recursive routine that returns the pair
+  -- (gcdA, gcdB).
+  TBD
+
+proof_method_lean:
+  - induction
+  - construction
+proof_method_textbook:
+  - construction
+  - algebraic-manipulation
+
+dependencies:
+  - declaration: Nat.xgcd
+    canonical_name: "Extended Euclidean algorithm"
+    gloss: "Recursive routine producing the Bezout coefficients."
+  - declaration: Nat.gcd
+    canonical_name: "Greatest common divisor"
+    gloss: "The quantity expressed as a ℤ-linear combination of the inputs."
+
+proof_chain:
+  - "Define gcdA, gcdB by recursion mirroring the gcd recurrence."
+  - "Prove the linear-combination identity by induction on the recursion."
+
+verbalization:
+  researcher: |
+    The extended Euclidean algorithm computes integers x, y with
+    gcd(a, b) = ax + by; Mathlib exposes them as Nat.gcdA, Nat.gcdB.
+  faithful_to_mathlib: |
+    Mathlib's `Nat.gcd_eq_gcd_ab` is a *constructive* statement: it asserts
+    the equation for the specific witnesses Nat.gcdA, Nat.gcdB produced by
+    the extended Euclidean algorithm. The proof proceeds by induction on the
+    same recursion that defines those witnesses.
+  textbook_classical: |
+    Run the Euclidean algorithm on a and b, recording each quotient and
+    remainder. Back-substituting from the final nonzero remainder yields
+    the gcd as an integer linear combination of a and b. Concretely, the
+    last nonzero remainder is the gcd; working upward through the equations
+    expresses it as ax + by.
+
+verification:
+  - claim: "pending Mathlib commit pin"
+    source: local-lean-check
+    checked_on: "2026-05-17"
+    checker: lemmatize-seed
+  - claim: "Wikidata Q513028 is the Q-ID for Bezout's identity."
+    source: "https://www.wikidata.org/wiki/Q513028"
+    checked_on: "2026-05-17"
+    checker: lemmatize-seed
+
+notes: |
+  Bezout's identity is the algebraic engine behind Euclid's lemma in the
+  textbook proof: the explicit integer combination xp + ym = 1 is what
+  lets one multiply through by n and conclude p ∣ n.

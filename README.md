@@ -18,7 +18,7 @@ The vision and motivation live in [`docs/idea.md`](docs/idea.md). The concrete r
 
 ## Status
 
-Early scaffolding. The first cut establishes the schema, the seed entry, and the validation tooling. Worked examples and the LLM verbalizer are next.
+Early scaffolding. Five seed YAML entries cover √2, the infinitude of primes, Euclid's lemma, the fundamental theorem of arithmetic, and Bezout's identity. The CLI supports `validate`, `lookup`, `verbalize` (stored-template), and `check` (weak faithfulness). The LLM-driven verbalizer, the LeanDojo extraction bridge, and a pinned-commit pass over the seed entries are the next steps.
 
 ## Repository layout
 
@@ -29,6 +29,7 @@ lemmatize/               one YAML entry per theorem
 schema/entry.schema.json JSON Schema for entries
 schema/proof-methods.yaml controlled vocabulary
 pipeline/                CLI and validation code
+examples/                worked examples
 tests/                   pytest suite
 ```
 
@@ -37,9 +38,12 @@ tests/                   pytest suite
 ```sh
 pip install -e .[dev]
 lemmatize validate
-lemmatize lookup Nat.Prime.irrational_sqrt
+lemmatize lookup    Nat.Prime.irrational_sqrt
+lemmatize verbalize Nat.Prime.irrational_sqrt --register faithful_to_mathlib
 pytest
 ```
+
+See `examples/irrational-sqrt-two.md` for an end-to-end walk-through.
 
 `lemmatize validate` is the gate every contribution must pass; it checks every YAML file in `lemmatize/` against the schema, verifies the `id` matches the filename, rejects unknown proof-method tags, and checks cross-references between entries.
 

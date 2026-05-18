@@ -1,0 +1,86 @@
+id: fundamental-theorem-arithmetic
+
+wikidata: Q670235
+
+aliases:
+  - "Unique factorization theorem"
+  - "FTA"
+
+canonical_name:
+  en: "Fundamental theorem of arithmetic"
+  de: "Fundamentalsatz der Arithmetik"
+
+short_form:
+  en: "by the fundamental theorem of arithmetic"
+  de: "nach dem Fundamentalsatz der Arithmetik"
+
+mathlib_declaration: Nat.factors_unique
+mathlib_file: Mathlib/Data/Nat/Factorization/Basic.lean
+mathlib_lines: "1-1"
+mathlib_commit_verified_against: TBD
+
+mathlib_statement: |
+  -- The Mathlib formalization expresses unique factorization through
+  -- the `Nat.factors` list and its uniqueness up to permutation. The exact
+  -- declaration name and signature must be pinned at commit-verification time;
+  -- candidates include `Nat.factors_unique`, the `UniqueFactorizationMonoid`
+  -- instance for ℕ, and the multiset-valued `Nat.factorization`.
+  TBD
+
+mathlib_proof_body: |
+  -- Verbatim proof body to be pinned against a specific Mathlib commit.
+  TBD
+
+proof_method_lean:
+  - induction
+  - unique-factorization
+proof_method_textbook:
+  - strong-induction
+  - unique-factorization
+
+dependencies:
+  - declaration: Nat.Prime.dvd_mul
+    canonical_name: "Euclid's lemma"
+    gloss: "Uniqueness of the prime factorization rests on Euclid's lemma."
+    lemmatize_id: euclids-lemma
+  - declaration: Nat.minFac_prime
+    canonical_name: "Smallest prime factor exists"
+    gloss: "Used to extract a prime divisor for the existence half of the theorem."
+
+proof_chain:
+  - "Existence: strong induction on n, peeling off the smallest prime factor."
+  - "Uniqueness: given two factorizations, Euclid's lemma forces a common prime, divide it out, recurse."
+
+verbalization:
+  researcher: |
+    Every n ≥ 2 factors uniquely (up to order) as a product of primes.
+  faithful_to_mathlib: |
+    Mathlib decomposes the statement into two parts: an existence claim
+    discharged by recursion on the smallest prime factor, and a uniqueness
+    claim discharged by Euclid's lemma. In practice the theorem is consumed
+    through the `Nat.factorization` finsupp interface rather than as a single
+    monolithic statement.
+  textbook_classical: |
+    By strong induction on n. If n is prime, the factorization is n itself.
+    Otherwise n = ab with 1 < a, b < n; both factor uniquely by induction,
+    and concatenation gives a factorization of n. Uniqueness follows from
+    Euclid's lemma: if p₁ … p_k = q₁ … q_m, then p₁ divides the right-hand
+    side, hence equals some q_j; cancel and recurse.
+
+verification:
+  - claim: "pending Mathlib commit pin"
+    source: local-lean-check
+    checked_on: "2026-05-17"
+    checker: lemmatize-seed
+  - claim: "Wikidata Q670235 is the Q-ID for the fundamental theorem of arithmetic."
+    source: "https://www.wikidata.org/wiki/Q670235"
+    checked_on: "2026-05-17"
+    checker: lemmatize-seed
+
+notes: |
+  This entry is intentionally schematic on the Lean side because Mathlib does
+  not expose unique factorization as one named theorem; it lives in the
+  `UniqueFactorizationMonoid` typeclass and the `Nat.factorization` API.
+  The pinned-commit pass will decide which declaration to canonicalize as
+  `mathlib_declaration` for this entry — `Nat.factors_unique` is the leading
+  candidate.

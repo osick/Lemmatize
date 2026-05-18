@@ -1,0 +1,89 @@
+id: euclid-infinitude-primes
+
+wikidata: Q190026
+
+aliases:
+  - "Euclid's theorem"
+  - "Infinitude of primes"
+
+canonical_name:
+  en: "Infinitude of primes"
+  de: "Satz von Euklid (Unendlichkeit der Primzahlen)"
+
+short_form:
+  en: "there are infinitely many primes"
+  de: "es gibt unendlich viele Primzahlen"
+
+mathlib_declaration: Nat.exists_infinite_primes
+mathlib_file: Mathlib/Data/Nat/Prime/Infinite.lean
+mathlib_lines: "1-1"
+mathlib_commit_verified_against: TBD
+
+mathlib_statement: |
+  theorem Nat.exists_infinite_primes (n : ℕ) : ∃ p, n ≤ p ∧ Nat.Prime p
+
+mathlib_proof_body: |
+  -- Verbatim proof body to be pinned against a specific Mathlib commit.
+  -- The Mathlib argument follows the classical Euclidean route: take a prime
+  -- factor of n! + 1; it cannot be ≤ n (else it would divide both n! and 1).
+  TBD
+
+proof_method_lean:
+  - construction
+  - case-analysis
+proof_method_textbook:
+  - contradiction
+  - construction
+
+essential_hypotheses:
+  - "Existence of a prime factor for any integer > 1 (provided by Nat.minFac_prime)."
+
+dependencies:
+  - declaration: Nat.minFac_prime
+    canonical_name: "Smallest prime factor exists"
+    gloss: "For n ≥ 2, Nat.minFac n is prime; supplies the prime witness from n! + 1."
+  - declaration: Nat.factorial
+    canonical_name: "Factorial"
+    gloss: "n! is the product used to dominate every prime ≤ n."
+  - declaration: Nat.Prime
+    canonical_name: "Prime number"
+    gloss: "Definition of primality used in the conclusion."
+
+proof_chain:
+  - "Form n! + 1."
+  - "Take p = Nat.minFac (n! + 1); this is prime since n! + 1 ≥ 2."
+  - "If p ≤ n then p ∣ n! and p ∣ n! + 1, so p ∣ 1, contradicting primality."
+  - "Hence p > n and p is prime, giving the required witness."
+
+verbalization:
+  researcher: |
+    The smallest prime factor of n! + 1 exceeds n, since any prime ≤ n divides
+    n! and therefore cannot divide n! + 1. Hence primes are unbounded.
+  faithful_to_mathlib: |
+    Mathlib's proof is the constructive Euclidean argument: given n, it
+    exhibits a prime p ≥ n by taking the smallest prime factor of n! + 1.
+    The smallest-prime-factor function is total on inputs ≥ 2 and returns
+    a prime, so the construction terminates. The key step is the divisibility
+    contradiction: a prime ≤ n divides n!, so it cannot also divide n! + 1.
+  textbook_classical: |
+    Suppose, for contradiction, that there are only finitely many primes
+    p₁, …, p_k. Consider N = p₁ · p₂ · … · p_k + 1. No p_i divides N
+    (since p_i divides the product but not 1), yet N has a prime factor
+    by the fundamental theorem of arithmetic — contradicting the assumption
+    that the listed primes were exhaustive.
+
+verification:
+  - claim: "pending Mathlib commit pin"
+    source: local-lean-check
+    checked_on: "2026-05-17"
+    checker: lemmatize-seed
+  - claim: "Wikidata Q190026 is the Q-ID for 'Euclid's theorem' on the infinitude of primes."
+    source: "https://www.wikidata.org/wiki/Q190026"
+    checked_on: "2026-05-17"
+    checker: lemmatize-seed
+
+notes: |
+  Lean and textbooks reach the same conclusion via slightly different
+  rhetorical moves: Lean prefers an explicit construction (smallest prime
+  factor of n! + 1), while textbooks usually frame the same construction
+  inside a proof-by-contradiction shell. Both routes are recorded.
